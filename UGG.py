@@ -10,7 +10,6 @@ def randomchar(replacer):
 
 
 print("""ULTIMATE GIFTCARD/CODE PATTERN GENERATOR
-Made by Dermacol
 
 
 ? = Random letter or number
