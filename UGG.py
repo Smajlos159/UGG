@@ -1,5 +1,7 @@
-import random, os, datetime, time
+import random, os, datetime, time, ctypes
 from string import ascii_letters, ascii_lowercase, ascii_uppercase, digits
+
+ctypes.windll.kernel32.SetConsoleTitleW("Ultimate Giftcard/pattern Generator") # Console Title
 
 def randomchar(replacer):
         global output
@@ -21,6 +23,7 @@ Made by Dermacol
 
 """)
 output_list = [] # Used for the non-duplicates mode
+progress = 0 # Used for progress % in the  console title
 date = str(datetime.datetime.now()).replace(":","-")
 if not os.path.isdir("Results"):
         os.mkdir("Results")
@@ -66,9 +69,13 @@ for output in range(number_codes):
                 else:
                         output += character
         if duplicates:
-                output_list.append(output)       
+                output_list.append(output) 
+                progress += 1 
+                ctypes.windll.kernel32.SetConsoleTitleW(f"Ultimate Giftcard/pattern Generator [{int(progress / number_codes * 100)}%]") # Updates console title
         else:
                 output_f.write(f"{output}\n")
+                progress += 1
+                ctypes.windll.kernel32.SetConsoleTitleW(f"Ultimate Giftcard/pattern Generator [{int(progress / number_codes * 100)}%]") # Updates console title 
 if duplicates:
         output_list = list(dict.fromkeys(output_list))
         for filtered_output in output_list:
