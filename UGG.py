@@ -6,7 +6,10 @@ ctypes.windll.kernel32.SetConsoleTitleW("Ultimate Giftcard/pattern Generator") #
 def randomchar(replacer):
         global output
         character = random.choice(replacer)
-        output += character  
+        output += character 
+def console_title(progress, number_codes, start_time): #Calculates progress and CPM and updates console title
+        current_time = time.time()
+        ctypes.windll.kernel32.SetConsoleTitleW(f"Ultimate Giftcard/pattern Generator [Progress: {int(progress / number_codes * 100)}%] [CPM: {round(int(progress / (current_time - start_time) * 60), -3)}]")
 
 
 print("""ULTIMATE GIFTCARD/CODE PATTERN GENERATOR
@@ -70,11 +73,13 @@ for output in range(number_codes):
         if duplicates:
                 output_list.append(output) 
                 progress += 1 
-                ctypes.windll.kernel32.SetConsoleTitleW(f"Ultimate Giftcard/pattern Generator [{int(progress / number_codes * 100)}%]") # Updates console title
+                if progress%100 == 0: #Updates console
+                       console_title(progress, number_codes, start_time)
         else:
                 output_f.write(f"{output}\n")
                 progress += 1
-                ctypes.windll.kernel32.SetConsoleTitleW(f"Ultimate Giftcard/pattern Generator [{int(progress / number_codes * 100)}%]") # Updates console title 
+                if progress%100 == 0:
+                       console_title(progress, number_codes, start_time)
 if duplicates:
         output_list = list(dict.fromkeys(output_list))
         for filtered_output in output_list:
@@ -84,5 +89,5 @@ if duplicates:
 
 finish_time = time.time() # Stopping point for timer
 print(f"> Done in {round(finish_time - start_time, 2)} seconds! Output has been saved in the results directory.")
-time.sleep(7.5)
+input("> Press enter to exit. \n> ")
 exit
